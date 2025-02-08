@@ -29,17 +29,28 @@
                             @endif
                         </div>
 
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <label for="password" class="form-label mb-0">{{ __('Password') }}</label>
+                                <a class="btn btn-link px-0 text-decoration-none"
+                                 href="{{ route('password.request') }}">
+                                    {{ trans('global.forgot_password') }}
+                                </a>
                             </div>
-                            <input name="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" required placeholder="{{ trans('global.login_password') }}">
-                            @if($errors->has('password'))
-                                <div class="invalid-feedback">
-                                    {{ $errors->first('password') }}
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-lock"></i></span>
                                 </div>
-                            @endif
+                                <input name="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" 
+                                       required placeholder="{{ trans('global.login_password') }}">
+                                @if($errors->has('password'))
+                                    <div class="invalid-feedback">
+                                        {{ $errors->first('password') }}
+                                    </div>
+                                @endif
+                            </div>
                         </div>
+                        
 
                         <div class="input-group mb-4">
                             <div class="form-check checkbox">
@@ -50,18 +61,10 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-6">
-                                <button type="submit" class="btn btn-primary px-4">
+                        <div class="mb-3 text-center">
+                            <button type="submit" class="btn btn-primary px-4 w-100">
                                     {{ trans('global.login') }}
                                 </button>
-                            </div>
-                            <div class="col-6 text-right">
-                                <a class="btn btn-link px-0" href="{{ route('password.request') }}">
-                                    {{ trans('global.forgot_password') }}
-                                </a>
-
-                            </div>
                         </div>
 
                         <div class="row"> 
@@ -70,7 +73,6 @@
                                     <a class="btn btn-link px-0" href="{{ route('register') }}">
                                         {{ trans('global.sign_up') }}
                                     </a>
-                                    
                                 </p>
                             </div>
                         </div>

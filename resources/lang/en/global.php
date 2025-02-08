@@ -209,6 +209,7 @@ return [
     'serial_number'                        => 'Serial number',
     'simple_user'                          => 'Simple user',
     'sign_up'                              => 'Sign up',
+    'sign_in'                              => 'Sign in',
     'skype'                                => 'Skype',
     'slug'                                 => 'Slug',
     'start_date'                           => 'Start date',
