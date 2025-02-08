@@ -10,6 +10,7 @@
                             {{ \Session::get('message') }}
                         </p>
                     @endif
+                    @include('flash::message')
                     <form method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
                         <h1>{{ trans('panel.site_title') }}</h1>

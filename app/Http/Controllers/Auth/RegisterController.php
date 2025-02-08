@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
+use Laracasts\Flash\Flash;
+
 
 
 
@@ -82,7 +84,8 @@ class RegisterController extends Controller
         $this->validator($request->all())->validate();
         event(new Registered($user = $this->create($request->all())));
         // auth()->login($user);
-        // return redirect($this->redirectPath());
-        return redirect('/login')->with('success', 'Registration successful. Please log in.');
+        // return redirect($this->redirectPath());     
+        flash()->success('Registration successful. Please log in.');
+        return redirect('/login');
     }
 }
