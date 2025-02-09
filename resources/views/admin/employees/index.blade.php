@@ -67,19 +67,39 @@
       });
 
       if (ids.length === 0) {
-        alert('{{ trans('global.datatables.zero_selected') }}')
-
+        Swal.fire({
+                    title: '{{ trans('global.datatables.zero_selected') }}',
+                    icon: 'warning',
+                });
         return
       }
 
-      if (confirm('{{ trans('global.areYouSure') }}')) {
-        $.ajax({
-          headers: {'x-csrf-token': _token},
-          method: 'POST',
-          url: config.url,
-          data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
-      }
+        Swal.fire({
+                title: '{{ trans('global.areYouSure') }}',
+                text: "{{ trans('global.this_action_cannot_be_undone') }}",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: '{{ trans('global.yes_delete') }}',
+                cancelButtonText: '{{ trans('global.cancel') }}'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        headers: { 'x-csrf-token': _token },
+                        method: 'POST',
+                        url: config.url,
+                        data: { ids: ids, _method: 'DELETE' }
+                    }).done(function () { 
+                        Swal.fire(
+                            '{{ trans('global.deleted') }}',
+                            '{{ trans('global.delete_success') }}',
+                            'success'
+                        );
+                        location.reload();
+                    });
+                }
+            }); 
     }
   }
   dtButtons.push(deleteButton)
@@ -112,5 +132,30 @@
     });
 });
 
+</script>
+
+<script>
+    $(document).ready(function () {
+    $(document).on('click', '.delete-btn', function (e) {
+        e.preventDefault();
+        let form = $(this).closest("form");
+
+        Swal.fire({
+            title: '{{ trans('global.areYouSure') }}',
+            text: "{{ trans('global.this_action_cannot_be_undone') }}",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: '{{ trans('global.yes_delete') }}',
+            cancelButtonText: '{{ trans('global.cancel') }}'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit(); 
+            }
+        });
+        
+    });
+});
 </script>
 @endsection
