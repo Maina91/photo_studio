@@ -71,7 +71,8 @@
                         <div class="row"> 
                             <div class="col-12 ">
                                 <p class="">Don't have any account? 
-                                    <a class="btn btn-link px-0" href="{{ route('register') }}">
+                                    <a class="btn btn-link px-0 text-decoration-none"
+                                     href="{{ route('register') }}">
                                         {{ trans('global.sign_up') }}
                                     </a>
                                 </p>
