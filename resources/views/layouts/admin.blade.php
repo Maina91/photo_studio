@@ -23,6 +23,36 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet" />
 
+
+    <style>
+      /* Animations */
+      .fade-in {
+          opacity: 0;
+          transform: scale(0.9);
+          animation: fadeInUp 0.8s ease-in-out forwards;
+      }
+  
+      @keyframes fadeInUp {
+          from {
+              opacity: 0;
+              transform: translateY(20px);
+          }
+          to {
+              opacity: 1;
+              transform: translateY(0);
+          }
+      }
+  
+      /* Hover Effects */
+      .card {
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+  </style>
+
     @yield('styles')
 </head>
 
