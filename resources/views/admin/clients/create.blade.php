@@ -45,6 +45,26 @@
                     {{ trans('cruds.client.fields.email_helper') }}
                 </p>
             </div>
+            <div class="form-group {{ $errors->has('referred_by') ? 'has-error' : '' }}">
+                <label for="referred_by">{{ trans('cruds.client.fields.referred_by') }}</label>
+                <select id="referred_by" name="referred_by" class="form-control">
+                    <option value="">-- Select Referrer --</option>
+                    @foreach($clients as $client)
+                        <option value="{{ $client->id }}" {{ old('referred_by', isset($client) && $client->referred_by == $client->id ? 'selected' : '') }}>
+                            {{ $client->name }}
+                        </option>
+                    @endforeach
+                </select>
+                @if($errors->has('referred_by'))
+                    <em class="invalid-feedback">
+                        {{ $errors->first('referred_by') }}
+                    </em>
+                @endif
+                <p class="helper-block">
+                    {{ trans('cruds.client.fields.referred_by_helper') }}
+                </p>
+            </div>
+            
             <div>
                 <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
             </div>

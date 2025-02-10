@@ -34,6 +34,9 @@
                         {{ trans('cruds.client.fields.email') }}
                     </th>
                     <th>
+                        {{ trans('cruds.client.fields.referral_points') }}
+                    </th>
+                    <th>
                         &nbsp;
                     </th>
                 </tr>
@@ -92,6 +95,7 @@
 { data: 'name', name: 'name' },
 { data: 'phone', name: 'phone' },
 { data: 'email', name: 'email' },
+{ data: 'referral_points', name: 'referral_points' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     order: [[ 1, 'desc' ]],

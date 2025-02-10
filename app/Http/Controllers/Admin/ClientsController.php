@@ -11,14 +11,24 @@ use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
+use App\ReferralPoint;
+use Illuminate\Support\Facades\DB;
+
 
 class ClientsController extends Controller
 {
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $query = Client::query()->select(sprintf('%s.*', (new Client)->table));
+            // $query = Client::query()->select(sprintf('%s.*', (new Client)->table));
+            $query = Client::leftJoin('referral_points', 'clients.id', '=', 'referral_points.client_id')
+                ->select(
+                    'clients.*',
+                    \DB::raw('COALESCE(SUM(referral_points.points), 0) as total_referral_points')
+                )
+                ->groupBy('clients.id');
             $table = Datatables::of($query);
+
 
             $table->addColumn('placeholder', '&nbsp;');
             $table->addColumn('actions', '&nbsp;');
@@ -50,6 +60,9 @@ class ClientsController extends Controller
             $table->editColumn('email', function ($row) {
                 return $row->email ? $row->email : "";
             });
+            $table->addColumn('referral_points', function ($row) {
+                return $row->total_referral_points ? $row->total_referral_points : 0;
+            });
 
             $table->rawColumns(['actions', 'placeholder']);
 
@@ -62,14 +75,29 @@ class ClientsController extends Controller
     public function create()
     {
         abort_if(Gate::denies('client_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $clients = Client::all();
 
-        return view('admin.clients.create');
+        return view('admin.clients.create', compact('clients'));
     }
 
     public function store(StoreClientRequest $request)
     {
-        $client = Client::create($request->all());
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'required|email|unique:clients',
+            'referred_by' => 'nullable|exists:clients,id',
+        ]);
 
+        $client = Client::create($validatedData);
+        if ($client->referred_by) {
+            ReferralPoint::create([
+                'client_id' => $client->referred_by,
+                'points' => 1,
+            ]);
+        }
+
+        flash()->success('Client created successfully.');
         return redirect()->route('admin.clients.index');
     }
 

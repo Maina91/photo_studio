@@ -22,6 +22,7 @@ class Client extends Model
         'name',
         'phone',
         'email',
+        'referred_by',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -30,5 +31,16 @@ class Client extends Model
     public function appointments()
     {
         return $this->hasMany(Appointment::class, 'client_id', 'id');
+    }
+
+    public function referrals()
+    {
+        return $this->hasMany(Client::class, 'referred_by');
+    }
+
+    // Relationship: A client who was referred by another client
+    public function referrer()
+    {
+        return $this->belongsTo(Client::class, 'referred_by');
     }
 }
