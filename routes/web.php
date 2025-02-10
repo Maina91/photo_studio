@@ -28,6 +28,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('employees/media', 'EmployeesController@storeMedia')->name('employees.storeMedia');
     Route::resource('employees', 'EmployeesController');
 
+    // Leads
+    Route::delete('leads/destroy', 'LeadsController@massDestroy')->name('leads.massDestroy');
+    Route::resource('leads', 'LeadsController');
+
     // Clients
     Route::delete('clients/destroy', 'ClientsController@massDestroy')->name('clients.massDestroy');
     Route::resource('clients', 'ClientsController');
@@ -36,5 +40,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('appointments/destroy', 'AppointmentsController@massDestroy')->name('appointments.massDestroy');
     Route::resource('appointments', 'AppointmentsController');
 
+    //Calendar
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
 });

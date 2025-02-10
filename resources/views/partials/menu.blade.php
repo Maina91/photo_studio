@@ -72,6 +72,15 @@
                     </a>
                 </li>
             @endcan
+            @can('lead_access')
+            <li class="nav-item">
+                <a href="{{ route('admin.leads.index') }}" class="nav-link {{ request()->is('admin/leads') || request()->is('admin/leads/*') ? 'active' : '' }}">
+                    <i class="fa-fw fas fa-user-tag nav-icon"></i>
+                    {{ trans('cruds.lead.title') }}
+                    
+                </a>
+            </li>
+        @endcan
             @can('client_access')
                 <li class="nav-item">
                     <a href="{{ route("admin.clients.index") }}" class="nav-link {{ request()->is('admin/clients') || request()->is('admin/clients/*') ? 'active' : '' }}">
