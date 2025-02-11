@@ -48,6 +48,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('settings/destroy', 'SettingsController@massDestroy')->name('settings.massDestroy');
     Route::resource('settings', 'SettingsController');
 
+    Route::get('/payment_schedule/show', 'SettingsController@paymentsScheduleShow')->name('payment_schedule.show');
+    Route::get('/payment_schedule/create', 'SettingsController@paymentScheduleCreate')->name('payment_schedule.create');
+    Route::post('/payment_schedule/store', 'SettingsController@paymentsScheduleStore')->name('payment_schedule.store');
+
+
     //Calendar
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
 });

@@ -101,22 +101,49 @@
                     </a>
                 </li>
             @endcan
-            @can('report_access')
-                <li class="nav-item">
-                    <a href="{{ route('admin.reports.index') }}" class="nav-link {{ request()->is('admin/reports') || request()->is('admin/reports/*') ? 'active' : '' }}">
+            @can('report_management')
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link  nav-dropdown-toggle" href="#">
                         <i class="fa-fw fas fa-chart-line nav-icon"></i>
-                        {{ trans('cruds.report.title') }}
+                        {{ trans('cruds.report_management.title') }}
                     </a>
+                    <ul class="nav-dropdown-items">
+                        @can('report_access')
+                            <li class="nav-item">
+                                <a href="{{ route('admin.reports.index') }}" class="nav-link {{ request()->is('admin/reports') || request()->is('admin/reports/*') ? 'active' : '' }}">
+                                    <i class="fa-fw fas fa-chart-line nav-icon"></i>
+                                    {{ trans('cruds.report.title') }}
+                                </a>
+                            </li>
+                        @endcan
+                    </ul>
                 </li>
             @endcan
-            @can('setting_access')
-                <li class="nav-item">
-                    <a href="{{ route('admin.settings.index') }}" class="nav-link {{ request()->is('admin/settings') || request()->is('admin/settings/*') ? 'active' : '' }}">
-                        <i class="fa-fw fas fa-cog nav-icon"></i>
-                        {{ trans('cruds.setting.title') }}
-
-                    </a>
-                </li>
+            @can('setting_management')
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link nav-dropdown-toggle" href="#">
+                    <i class="fa-fw fas fa-cog nav-icon"></i>
+                    {{ trans('cruds.setting_management.title') }}
+                </a>
+                <ul class="nav-dropdown-items">
+                    @can('setting_access')
+                        <li class="nav-item">
+                            <a href="{{ route('admin.payment_schedule.show') }}" class="nav-link {{ request()->is('admin/settings/payments') ? 'active' : '' }}">
+                                <i class="fa-fw fas fa-sliders-h nav-icon"></i>
+                                {{ trans('cruds.payments.title') }}
+                            </a>
+                        </li>
+                    @endcan
+                    @can('setting_access')
+                        <li class="nav-item">
+                            <a href="{{ route('admin.settings.index') }}" class="nav-link {{ request()->is('admin/settings/invoice') ? 'active' : '' }}">
+                                <i class="fa-fw fas fa-file-invoice-dollar nav-icon"></i>
+                                {{ trans('cruds.invoice.title') }}
+                            </a>
+                        </li>
+                    @endcan
+                </ul>
+            </li>
             @endcan
             <li class="nav-item">
                 <a href="{{ route("admin.systemCalendar") }}" class="nav-link {{ request()->is('admin/system-calendar') || request()->is('admin/system-calendar/*') ? 'active' : '' }}">

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
+use App\PaymentSchedule;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class SettingsController extends Controller
@@ -13,20 +14,45 @@ class SettingsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function paymentsScheduleShow()
     {
-        return view('admin.settings.index');
+        $schedules = PaymentSchedule::all();
+
+        return view('admin.settings.payments_schedule', compact('schedules'));
     }
+
+    public function paymentScheduleCreate()
+    {
+        return view('admin.settings.payments_schedule_create');
+    }
+
+    public function paymentsScheduleStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'initial_payment_percentage' => 'nullable|integer|min:0|max:100',
+            'remaining_payment_days' => 'nullable|integer|min:0',
+        ]);
+
+        PaymentSchedule::create($request->all());
+        $schedules = PaymentSchedule::all();
+
+        flash()->success('Schedule created successfully.');
+
+        return view('admin.settings.payments_schedule', compact('schedules'));
+    }
+
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function index()
     {
-        //
+        return view('admin.settings.invoices');
     }
+
 
     /**
      * Store a newly created resource in storage.
