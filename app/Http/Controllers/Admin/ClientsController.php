@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Gate;
 use App\Client;
+use App\LeadSource;
+use App\ReferralPoint;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MassDestroyClientRequest;
+use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
-use Gate;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Yajra\DataTables\Facades\DataTables;
-use App\ReferralPoint;
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\MassDestroyClientRequest;
 
 
 class ClientsController extends Controller
@@ -75,9 +76,9 @@ class ClientsController extends Controller
     public function create()
     {
         abort_if(Gate::denies('client_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $leadSources = LeadSource::all();
         $clients = Client::all();
-
-        return view('admin.clients.create', compact('clients'));
+        return view('admin.clients.create', compact('clients', 'leadSources'));
     }
 
     public function store(StoreClientRequest $request)
@@ -86,6 +87,7 @@ class ClientsController extends Controller
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'email' => 'required|email|unique:clients',
+            'lead_source_id' => 'nullable|exists:lead_sources,id',
             'referred_by' => 'nullable|exists:clients,id',
         ]);
 

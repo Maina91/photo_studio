@@ -45,12 +45,26 @@
                     {{ trans('cruds.client.fields.email_helper') }}
                 </p>
             </div>
-            <div class="form-group {{ $errors->has('referred_by') ? 'has-error' : '' }}">
-                <label for="referred_by">{{ trans('cruds.client.fields.referred_by') }}</label>
+            <div class="form-group">
+                <label for="lead_source_id">How did you hear about us?</label>
+                <select name="lead_source_id" id="lead_source_id" class="form-control">
+                    <option value="">Select Lead Source</option>
+                    @foreach($leadSources as $source)
+                        <option value="{{ $source->id }}" 
+                            data-referral="{{ strtolower($source->name) == 'referral' ? 'yes' : 'no' }}"
+                            {{ old('lead_source_id', $client->lead_source_id ?? '') == $source->id ? 'selected' : '' }}>
+                            {{ $source->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            
+            <div class="form-group {{ $errors->has('referred_by') ? 'has-error' : '' }}" id="referred_by_group" style="display: none;">
+                <label for="referred_by">Referred By</label>
                 <select id="referred_by" name="referred_by" class="form-control">
                     <option value="">-- Select Referrer --</option>
                     @foreach($clients as $client)
-                        <option value="{{ $client->id }}" {{ old('referred_by', isset($client) && $client->referred_by == $client->id ? 'selected' : '') }}>
+                        <option value="{{ $client->id }}" {{ old('referred_by', $client->referred_by ?? '') == $client->id ? 'selected' : '' }}>
                             {{ $client->name }}
                         </option>
                     @endforeach
@@ -60,10 +74,8 @@
                         {{ $errors->first('referred_by') }}
                     </em>
                 @endif
-                <p class="helper-block">
-                    {{ trans('cruds.client.fields.referred_by_helper') }}
-                </p>
             </div>
+            
             
             <div>
                 <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
@@ -73,4 +85,28 @@
 
     </div>
 </div>
+
+@endsection
+
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let leadSourceSelect = document.getElementById('lead_source_id');
+        let referredByGroup = document.getElementById('referred_by_group');
+    
+        function toggleReferredBy() {
+            let selectedOption = leadSourceSelect.options[leadSourceSelect.selectedIndex];
+            let isReferral = selectedOption.getAttribute('data-referral') === 'yes';
+    
+            referredByGroup.style.display = isReferral ? 'block' : 'none';
+        }
+    
+        // Run on page load in case of validation errors
+        toggleReferredBy();
+    
+        // Listen for changes
+        leadSourceSelect.addEventListener('change', toggleReferredBy);
+    });
+    </script>
+    
 @endsection
