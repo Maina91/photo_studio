@@ -101,6 +101,23 @@
                     </a>
                 </li>
             @endcan
+            @can('report_access')
+                <li class="nav-item">
+                    <a href="{{ route('admin.reports.index') }}" class="nav-link {{ request()->is('admin/reports') || request()->is('admin/reports/*') ? 'active' : '' }}">
+                        <i class="fa-fw fas fa-chart-line nav-icon"></i>
+                        {{ trans('cruds.report.title') }}
+                    </a>
+                </li>
+            @endcan
+            @can('setting_access')
+                <li class="nav-item">
+                    <a href="{{ route('admin.settings.index') }}" class="nav-link {{ request()->is('admin/settings') || request()->is('admin/settings/*') ? 'active' : '' }}">
+                        <i class="fa-fw fas fa-cog nav-icon"></i>
+                        {{ trans('cruds.setting.title') }}
+
+                    </a>
+                </li>
+            @endcan
             <li class="nav-item">
                 <a href="{{ route("admin.systemCalendar") }}" class="nav-link {{ request()->is('admin/system-calendar') || request()->is('admin/system-calendar/*') ? 'active' : '' }}">
                     <i class="nav-icon fa-fw fas fa-calendar">

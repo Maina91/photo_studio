@@ -40,6 +40,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('appointments/destroy', 'AppointmentsController@massDestroy')->name('appointments.massDestroy');
     Route::resource('appointments', 'AppointmentsController');
 
+    // Reports
+    Route::delete('reports/destroy', 'ReportsController@massDestroy')->name('reports.massDestroy');
+    Route::resource('reports', 'ReportsController');
+
+    // Settings
+    Route::delete('settings/destroy', 'SettingsController@massDestroy')->name('settings.massDestroy');
+    Route::resource('settings', 'SettingsController');
+
     //Calendar
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
 });
