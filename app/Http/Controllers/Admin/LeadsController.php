@@ -3,16 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use Gate;
-use Symfony\Component\HttpFoundation\Response;
 use App\Lead;
 use App\Client;
+use App\LeadSource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\StoreLeadRequest;
 use App\Http\Requests\UpdateLeadRequest;
+use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\MassDestroyLeadRequest;
-use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Response;
 
 class LeadsController extends Controller
 {
@@ -26,9 +27,9 @@ class LeadsController extends Controller
     public function create()
     {
         abort_if(Gate::denies('lead_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        $leadSources = LeadSource::all();
         $clients = Client::all();
-        return view('admin.leads.create', compact('clients'));
+        return view('admin.leads.create', compact('clients', 'leadSources'));
     }
 
     public function store(Request $request)

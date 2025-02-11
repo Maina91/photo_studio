@@ -44,9 +44,17 @@
         </div>
 
         <div class="form-group">
-            <label for="source">Lead Source</label>
-            <input type="text" name="source" id="source" class="form-control" placeholder="e.g., Social Media, Referral">
+            <label for="lead_source_id">Lead Source</label>
+            <select name="lead_source_id" id="lead_source_id" class="form-control">
+                <option value="">Select Lead Source</option>
+                @foreach($leadSources as $source)
+                    <option value="{{ $source->id }}" {{ old('lead_source_id', $lead->lead_source_id ?? '') == $source->id ? 'selected' : '' }}>
+                        {{ $source->name }}
+                    </option>
+                @endforeach
+            </select>
         </div>
+        
 
         <div class="form-group">
             <label for="notes">Notes</label>
