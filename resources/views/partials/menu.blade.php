@@ -157,12 +157,12 @@
             </li>
 
             <!-- Logout -->
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a href="#" class="nav-link text-danger" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
                     <i class="nav-icon fas fa-sign-out-alt"></i>
                     {{ trans('global.logout') }}
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </nav>
 

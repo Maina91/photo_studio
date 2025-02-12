@@ -55,4 +55,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     //Calendar
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
+
+    // Profile
+    Route::prefix('/profile')->group(function () {
+        Route::get('/settings', 'UserProfileController@index')->name('profile.index');
+        Route::post('/settings/update', 'UserProfileController@updateProfile')->name('profile.update');
+        Route::get('/staff', 'UserProfileController@index');
+        Route::post('/password/change', 'Auth\ResetPasswordController@changePassword');
+    });
 });

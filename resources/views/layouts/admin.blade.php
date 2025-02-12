@@ -61,30 +61,62 @@
         <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="#">
-            <span class="navbar-brand-full">{{ trans('panel.site_title') }}</span>
+        <a class="navbar-brand" href="{{ route('admin.home') }}">
+          <span class="navbar-brand-full">{{ trans('panel.site_title') }}</span>
             <span class="navbar-brand-minimized">{{ trans('panel.site_title') }}</span>
         </a>
         <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <ul class="nav navbar-nav ml-auto">
-            @if(count(config('panel.available_languages', [])) > 1)
-                <li class="nav-item dropdown d-md-down-none">
-                    <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        {{ strtoupper(app()->getLocale()) }}
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        @foreach(config('panel.available_languages') as $langLocale => $langName)
-                            <a class="dropdown-item" href="{{ url()->current() }}?change_language={{ $langLocale }}">{{ strtoupper($langLocale) }} ({{ $langName }})</a>
-                        @endforeach
-                    </div>
-                </li>
-            @endif
+        {{-- <ul class="nav navbar-nav ml-auto">
+          @if(count(config('panel.available_languages', [])) > 1)
+              <li class="nav-item dropdown d-md-down-none">
+                  <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                      {{ strtoupper(app()->getLocale()) }}
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right">
+                      @foreach(config('panel.available_languages') as $langLocale => $langName)
+                          <a class="dropdown-item" href="{{ url()->current() }}?change_language={{ $langLocale }}">{{ strtoupper($langLocale) }} ({{ $langName }})</a>
+                      @endforeach
+                  </div>
+              </li>
+          @endif
+      </ul> --}}
 
+    <ul class="nav-right pull-right list-inline">
+      <li class="dropdown nav-profile">
+        <a href class="dropdown-toggle" data-toggle="dropdown">
+          {{-- <img src="{{ url('assets/images/default.jpg') }}" alt="logo" class="img-circle size-30x30" /> --}}
+          <span>{{Auth::user()->email}}<i class="fa fa-angle-down"></i></span>
+        </a>
+
+        <ul class="dropdown-menu animated littleFadeInRight" role="menu">
+          {{-- <li>
+            <a href="#">
+              <span class="label bg-lightred pull-right">new</span>
+              <i class="fa fa-check"></i>Tasks
+            </a>
+          </li> --}}
+
+          <li>
+            <a class="dropdown-item" href="{{ route('admin.profile.index') }}">
+              <i class="fa fa-cog"></i> Settings
+          </a>
+          </li>
+          
+          <li class="divider"></li>
+          <li>
+            <a href="#" class="nav-link text-danger" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
+              <i class="fa fa-sign-out"></i>
+              {{ trans('global.logout') }}
+            </a>
+          </li>
 
         </ul>
+      </li>
+    </ul>
+
     </header>
 
     <div class="app-body">
