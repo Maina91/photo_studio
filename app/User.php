@@ -18,6 +18,10 @@ class User extends Authenticatable
 
     public $table = 'users';
 
+    protected $casts = [
+        'login_days' => 'array',
+    ];
+
     protected $hidden = [
         'password',
         'remember_token',

@@ -10,8 +10,10 @@ use App\Country;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\MassDestroyUserRequest;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -61,7 +63,58 @@ class UserProfileController extends Controller
         return redirect()->back();
         // return redirect()->route('admin.profile.edit')->with('success', 'Profile updated successfully.');
     }
+
+    public function changePassword(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'current_password' => 'required',
+                'password' => [
+                    'required',
+                    'min:8',
+                    'confirmed',
+                ],
+                'password_confirmation' => 'required'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => $validator->errors()->all(),
+                    'message' => "Please correct the errors below."
+                ]);
+            }
+
+            $user = Auth::user();
+
+            if (!Hash::check($request->current_password, $user->password)) {
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => ["The current password you entered is incorrect. Please enter the correct current password."],
+                    'message' => "Please match your password"
+                ]);
+            }
+
+            $user->update([
+                'password' => Hash::make($request->password)
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'You have successfully changed your password, kindly login',
+                'route' => url('/admin/profile/settings')
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'There was an error when trying to reset password, please contact admin.'
+            ]);
+        }
+
+        // return redirect()->back();
+    }
 }
+
 
 
 // <?php

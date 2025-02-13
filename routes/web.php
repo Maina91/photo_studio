@@ -60,7 +60,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::prefix('/profile')->group(function () {
         Route::get('/settings', 'UserProfileController@index')->name('profile.index');
         Route::post('/settings/update', 'UserProfileController@updateProfile')->name('profile.update');
-        Route::get('/staff', 'UserProfileController@index');
-        Route::post('/password/change', 'Auth\ResetPasswordController@changePassword');
+        Route::post('/password/change', 'UserProfileController@changePassword')->name('profile.changePassword');
     });
 });

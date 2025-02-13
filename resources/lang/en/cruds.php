@@ -245,7 +245,7 @@ return [
         'title_singular' => 'Report',
     ],
     'setting_management' => [
-        'title' => 'Settings ',
+        'title' => 'Customize ',
         'title_singular' => 'Setting',
     ],
     'payment_schedule' => [
