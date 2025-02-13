@@ -32,7 +32,6 @@
 
                         <div class="mb-3">
                             <div class="d-flex justify-content-between align-items-center">
-                                <label for="password" class="form-label mb-0">{{ __('Password') }}</label>
                                 <a class="btn btn-link px-0 text-decoration-none"
                                  href="{{ route('password.request') }}">
                                     {{ trans('global.forgot_password') }}
@@ -42,8 +41,13 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-lock"></i></span>
                                 </div>
-                                <input name="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" 
+                                <input name="password" type="password" id="passwordInput" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" 
                                        required placeholder="{{ trans('global.login_password') }}">
+                                       <div class="input-group-append">
+                                        <span class="input-group-text" id="togglePassword" style="cursor: pointer;">
+                                            <i class="fa fa-eye"></i>
+                                        </span>
+                                    </div>
                                 @if($errors->has('password'))
                                     <div class="invalid-feedback">
                                         {{ $errors->first('password') }}
@@ -52,7 +56,6 @@
                             </div>
                         </div>
                         
-
                         <div class="input-group mb-4">
                             <div class="form-check checkbox">
                                 <input class="form-check-input" name="remember" type="checkbox" id="remember" style="vertical-align: middle;" />
@@ -86,4 +89,22 @@
         </div>
     </div>
 </div>
+@endsection
+@section('scripts')
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        let passwordInput = document.getElementById('passwordInput');
+        let icon = this.querySelector('i');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+</script>
 @endsection

@@ -46,18 +46,32 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                            <label for="password" class="col-form-label">{{ __('Password') }}</label>
+                            <div class="input-group">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
+                                       name="password" required autocomplete="new-password">
+                                <div class="input-group-append">
+                                    <span class="input-group-text toggle-password" data-target="password" style="cursor: pointer;">
+                                        <i class="fa fa-eye"></i>
                                     </span>
+                                </div>
+                                @error('password')
+                                    <span class="invalid-feedback"><strong>{{ $message }}</strong></span>
                                 @enderror
+                            </div>
                         </div>
 
+                        <!-- Confirm Password Input with Eye Icon -->
                         <div class="mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
+                            <label for="password-confirm" class="col-form-label">{{ __('Confirm Password') }}</label>
+                            <div class="input-group">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <div class="input-group-append">
+                                    <span class="input-group-text toggle-password" data-target="password-confirm" style="cursor: pointer;">
+                                        <i class="fa fa-eye"></i>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-3 text-center">
@@ -83,4 +97,25 @@
         </div>
     </div>
 </div>
+@endsection
+@section('scripts')
+<script>
+    document.querySelectorAll('.toggle-password').forEach(item => {
+        item.addEventListener('click', function () {
+            let targetId = this.getAttribute('data-target');
+            let passwordInput = document.getElementById(targetId);
+            let icon = this.querySelector('i');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    });
+</script>
 @endsection
