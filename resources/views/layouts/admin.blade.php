@@ -84,35 +84,42 @@
           @endif
       </ul> --}}
 
-    <ul class="nav-right pull-right list-inline">
+    <ul class="nav nav-right pull-right list-inline">
       <li class="dropdown nav-profile">
-        <a href class="dropdown-toggle" data-toggle="dropdown">
-          {{-- <img src="{{ url('assets/images/default.jpg') }}" alt="logo" class="img-circle size-30x30" /> --}}
-          <span>{{Auth::user()->email}}<i class="fa fa-angle-down"></i></span>
+        <a href class="dropdown-toggle btn btn-link text-decoration-none" data-toggle="dropdown" style="">
+          @if (empty($user->profile_photo))
+              <img src="{{ url('assets/images/default.jpg') }}" 
+                  alt="User Image" 
+                  class="rounded-circle border shadow-sm img-fluid" 
+                  style="width: 40px; height: 40px; object-fit: cover;" />
+          @else
+              <img class="rounded-circle border shadow-sm img-fluid" 
+                  src="{{ asset('storage/avatar/' . $user->profile_photo) }}" 
+                  alt="User Image" 
+                  style="width: 40px; height: 40px; object-fit: cover;" />
+          @endif
+
+          <span>{{Auth::user()->email}}
         </a>
 
-        <ul class="dropdown-menu animated littleFadeInRight" role="menu">
-          {{-- <li>
-            <a href="#">
-              <span class="label bg-lightred pull-right">new</span>
-              <i class="fa fa-check"></i>Tasks
-            </a>
-          </li> --}}
-
+        <ul class="dropdown-menu animated littleFadeInRight" role="menu">          
           <li>
             <a class="dropdown-item" href="{{ route('admin.profile.index') }}">
-              <i class="fa fa-cog"></i> Settings
-          </a>
+              <i class="fa fa-user"></i> My Profile
+            </a>
           </li>
-          
-          <li class="divider"></li>
+          <li>
+            <a class="dropdown-item" href="">
+              <i class="fa fa-cog"></i> Settings
+            </a>
+          </li>
+          <div class="dropdown-divider"></div>
           <li>
             <a href="#" class="nav-link text-danger" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
               <i class="fa fa-sign-out"></i>
               {{ trans('global.logout') }}
             </a>
-          </li>
-
+          </li> 
         </ul>
       </li>
     </ul>

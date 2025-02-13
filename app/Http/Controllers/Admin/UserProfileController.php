@@ -21,6 +21,7 @@ class UserProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
+        // dd($user);
         $towns = Country::all();
         $counties  = Country::all();
         $countries  = Country::all();
@@ -56,42 +57,44 @@ class UserProfileController extends Controller
 
         $user->update($validatedData);
 
-        return redirect()->route('admin.profile.edit')->with('success', 'Profile updated successfully.');
+        flash()->success('Profile updated successfully.');
+        return redirect()->back();
+        // return redirect()->route('admin.profile.edit')->with('success', 'Profile updated successfully.');
     }
 }
 
 
-<?php
+// <?php
 
-namespace App\Http\Controllers;
+// namespace App\Http\Controllers;
 
-use App\Country;
-use App\County;
-use App\Employee;
-use App\Company;
-use App\Town;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
+// use App\Country;
+// use App\County;
+// use App\Employee;
+// use App\Company;
+// use App\Town;
+// use Illuminate\Http\Request;
+// use Carbon\Carbon;
 
 /**
  * @OA\Schema()
  */
-class UserProfileController extends Controller
-{
-    /**
-     * |This controller is used to create
-     * |
-     * |
-     * |
-     */
-    /**
-     * UserProfileController constructor.
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-}
+// class UserProfileController extends Controller
+// {
+/**
+ * |This controller is used to create
+ * |
+ * |
+ * |
+ */
+/**
+ * UserProfileController constructor.
+ */
+//     public function __construct()
+//     {
+//         $this->middleware('auth');
+//     }
+// }
 
 
 //     public function index()
